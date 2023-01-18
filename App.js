@@ -1,20 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './screens/Home';
+import TransactionsScreen from './screens/Transaction';
+import CalendarScreen from './screens/Calendar';
+import StatisticsScreen from './screens/Statistics';
+import StatisticsPieChartScreen from './screens/StatisticsPieChart';
+const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Transactions" component={TransactionsScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Calendar" component={CalendarScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Statistics" component={StatisticsScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="StatisticsPieChart" component={StatisticsPieChartScreen} options={{ headerShown: false }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
