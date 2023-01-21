@@ -10,13 +10,45 @@ import {
   SafeAreaView,
   TextInput
 } from "react-native";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-export default function SignIn() {
-  const [email, onChangeEmail] = useState(null);
-  const [password, onChangePassword] = useState(null);
+const auth = getAuth();
+
+export default function SignInScreen({navigation}) {
+  const [value, setValue] = useState({
+    email: "",
+    password: "",
+    error: "",
+  });
+
+  async function signIn() {
+    if (value.email === "" || value.password === "") {
+      setValue({
+        ...value,
+        error: "Email and password are mandatory.",
+      });
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(value.email, value.password);
+      setValue({
+        email: "",
+        password: "",
+        error: "",
+      });
+      navigation.navigate("Home");
+    } catch (error) {
+      setValue({
+        ...value,
+        error: error.message,
+      });
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <Image source={require("./assets/logo.png")} style={styles.image} />
+      <Image source={require("../assets/logo.png")} style={styles.image} />
 
       <Text style={styles.title}>Sign In</Text>
       <Text style={styles.text}>Welcome back!</Text>
@@ -24,31 +56,33 @@ export default function SignIn() {
         <Text style={styles.inputTitle}>Email</Text>
         <TextInput
           style={styles.input}
-          onChangeText={onChangeEmail}
-          value={email}
+          onChangeText={(text) => setValue({ ...value, email: text })}
+          value={value.email}
         />
         <Text style={styles.inputTitle}>Password</Text>
         <TextInput
           secureTextEntry={true}
           style={styles.input}
-          onChangeText={onChangePassword}
-          value={password}
+          onChangeText={(text) => setValue({ ...value, password: text })}
+          value={value.password}
         />
+        <Text style={styles.errorText}>{value.error}</Text>
       </SafeAreaView>
       <View style={styles.btnView}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={signIn} >
           <Text style={styles.btnText}>Sign in</Text>
         </TouchableOpacity>
         <View style={styles.bottom}>
           <Text style={styles.bottomText}>
             <Text>Don't have an Account? </Text>
-            <Text style={styles.signup}>Sign up</Text>
+            <Text style={styles.signup} onPress={() => navigation.navigate("SignUp")} >Sign up</Text>
           </Text>
         </View>
       </View>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 
-export default function App() {
+export default function SignUpScreen({navigation}) {
 
 
   const [email, onChangeEmail] = useState(null);
@@ -33,7 +33,7 @@ export default function App() {
   }
   return (
     <View style={styles.container}>
-      <Image source={require("./assets/logo.png")} style={styles.image} />
+      <Image source={require("../assets/logo.png")} style={styles.image} />
 
       <Text style={styles.title}>Sign Up</Text>
       <Text style={styles.text}>Welcome back!</Text>
@@ -66,7 +66,7 @@ export default function App() {
         <View style={styles.bottom}>
           <Text style={styles.bottomText}>
             <Text>Have an Account? </Text>
-            <Text style={styles.signup}>Sign up</Text>
+            <Text style={styles.signup} onPress={() => navigation.navigate("SignIn")} >Sign In</Text>
           </Text>
         </View>
       </View>

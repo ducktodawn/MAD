@@ -24,6 +24,7 @@
     "expo-app-loading": "~2.1.1",
     "expo-font": "~11.0.1",
     "expo-status-bar": "~1.4.2",
+    "firebase": "^9.16.0",
     "font": "^0.0.4",
     "install": "^0.13.0",
     "radio-buttons-react-native": "^1.0.4",
@@ -37,6 +38,7 @@
     "react-native-chart-kit": "^6.12.0",
     "react-native-dropdown-picker": "^5.4.4",
     "react-native-dropdown-select-list": "^2.0.4",
+    "react-native-firebase": "^5.6.0",
     "react-native-gesture-handler": "^2.8.0",
     "react-native-modal-dropdown": "^1.0.2",
     "react-native-multiple-select": "^0.5.12",
@@ -50,7 +52,8 @@
     "react-native-svg-transformer": "^1.0.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.9",
-    "rn-bottom-drawer": "^1.4.3"
+    "rn-bottom-drawer": "^1.4.3",
+    "typescript": "^4.9.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
