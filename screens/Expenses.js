@@ -2,44 +2,35 @@
 // Class: DIT/FT/1B/05
 import { useState } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, FlatList, TouchableOpacity } from 'react-native';
-
-const App = () => {
+import ExpensesAndIncome from '../components/ExpensesAndIncome';
+export default function ExpensesScreen({navigation}) {
   const [value, setValue] = useState('');
-  const [selected, setSelected] = useState();
+
 
   const DATA = [
-    { id: '1', title: 'Food', image: require('./assets/food.png'), selectedImage: require('./assets/foodRed.png') },
-    { id: '2', title: 'Transport', image: require('./assets/transport.png'), selectedImage: require('./assets/transportRed.png') },
-    { id: '3', title: 'Shopping', image: require('./assets/shopping.png'), selectedImage: require('./assets/shoppingRed.png') },
-    { id: '4', title: 'Apparel', image: require('./assets/apparel.png'), selectedImage: require('./assets/apparelRed.png') },
-    { id: '5', title: 'Education', image: require('./assets/education.png'), selectedImage: require('./assets/educationRed.png') },
-    { id: '6', title: 'Entertainment', image: require('./assets/gaming.png'), selectedImage: require('./assets/gamingRed.png') },
-    { id: '7', title: 'Others', image: require('./assets/others.png'), selectedImage: require('./assets/othersRed.png') },
+    { id: '1', title: 'Food', image: require('../assets/food.png'), selectedImage: require('../assets/foodRed.png') },
+    { id: '2', title: 'Transport', image: require('../assets/transport.png'), selectedImage: require('../assets/transportRed.png') },
+    { id: '3', title: 'Shopping', image: require('../assets/shopping.png'), selectedImage: require('../assets/shoppingRed.png') },
+    { id: '4', title: 'Apparel', image: require('../assets/apparel.png'), selectedImage: require('../assets/apparelRed.png') },
+    { id: '5', title: 'Education', image: require('../assets/education.png'), selectedImage: require('../assets/educationRed.png') },
+    { id: '6', title: 'Entertainment', image: require('../assets/gaming.png'), selectedImage: require('../assets/gamingRed.png') },
+    { id: '7', title: 'Others', image: require('../assets/others.png'), selectedImage: require('../assets/othersRed.png') },
   ];
 
-  function Item({ id, title, image, selectedImage, onPress, style }) {
-    return (
-      <TouchableOpacity onPress={onPress} style={{ style }}>
-        <View style={{ flexDirection: 'row' }}>
-          <Image source={selected === id ? selectedImage : image} style={styles.icons} resizeMode='contain' />
-          <Text style={style}>{title}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
+ 
   const handlePress = (item) => {
     setSelected(item.id);
   };
 
   return (
     <View>
-      <View style={{ flexDirection: 'row', paddingTop: 30, paddingLeft: 10 }}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={{ flexDirection: 'row', paddingTop: 30, paddingLeft: 10 }}>
         <Image
-          source={require('./assets/greyArrow.png')}
+          source={require('../assets/greyArrow.png')}
           style={styles.backArrow}
         />
         <Text style={styles.back}>Back</Text>
-      </View>
+      </TouchableOpacity>
       <Text style={styles.expenses}>Expenses</Text>
       <Text style={styles.amountSpent}>Amount Spent</Text>
       <TextInput
@@ -49,29 +40,9 @@ const App = () => {
         value={value}   //value of input
       />
       <Text style={styles.typeOfExpense}>Type of Expense</Text>
-      {selected ? (
-        <View style={styles.tag}>
-          <Image source={DATA.find(item => item.id === selected).image} style={styles.tagIcon} resizeMode='contain' />
-          <Text style={styles.tagText}>{DATA.find(item => item.id === selected).title}</Text>
-        </View>
-      ) : (
-        null
-      )}
-      <FlatList
-        data={DATA}
-        renderItem={({ item }) => (
-          <Item
-            id={item.id}
-            title={item.title}
-            image={item.image}
-            selectedImage={item.selectedImage}
-            onPress={() => handlePress(item)}
-            style={selected === item.id ? styles.itemPress : styles.item}
-          />
-        )}
-        keyExtractor={item => item.id}
-        style={styles.flatList}
-      />
+      
+  <ExpensesAndIncome data={DATA}></ExpensesAndIncome>
+     
       <TouchableOpacity>
         <Text style={styles.button}>Done</Text>
       </TouchableOpacity>
@@ -79,7 +50,6 @@ const App = () => {
   );
 };
 
-export default App;
 
 const styles = StyleSheet.create({
   container: {

@@ -10,66 +10,52 @@ import {
   SafeAreaView,
   TextInput
 } from "react-native";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import EmailAndPassword from "../components/EmailAndPassword";
+import auth from "@react-native-firebase/auth";
+import { signInWithEmailAndPassword } from "@react-native-firebase/auth";
 
-const auth = getAuth();
+
+
 
 export default function SignInScreen({navigation}) {
-  const [value, setValue] = useState({
-    email: "",
-    password: "",
-    error: "",
-  });
 
-  async function signIn() {
-    if (value.email === "" || value.password === "") {
-      setValue({
-        ...value,
-        error: "Email and password are mandatory.",
-      });
-      return;
-    }
+  // async function signIn() {
+  //   if (value.email === "" || value.password === "") {
+  //     setValue({
+  //       ...value,
+  //       error: "Email and password are mandatory.",
+  //     });
+  //     return;
+  //   }
 
-    try {
-      await signInWithEmailAndPassword(value.email, value.password);
-      setValue({
-        email: "",
-        password: "",
-        error: "",
-      });
-      navigation.navigate("Home");
-    } catch (error) {
-      setValue({
-        ...value,
-        error: error.message,
-      });
-    }
-  }
+  //   try {
+  //     await signInWithEmailAndPassword(value.email, value.password);
 
+  //     setValue({
+  //       ...value,
+  //       email: "",
+  //       password: "",
+  //       error: "",
+  //     });
+      
+  //     navigation.navigate("Home");
+  //   } catch (error) {
+  //     setValue({
+  //       ...value,
+  //       error: error.message,
+  //     });
+    // }
+//  }
+  
   return (
     <View style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.image} />
 
-      <Text style={styles.title}>Sign In</Text>
-      <Text style={styles.text}>Welcome back!</Text>
-      <SafeAreaView>
-        <Text style={styles.inputTitle}>Email</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => setValue({ ...value, email: text })}
-          value={value.email}
-        />
-        <Text style={styles.inputTitle}>Password</Text>
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          onChangeText={(text) => setValue({ ...value, password: text })}
-          value={value.password}
-        />
-        <Text style={styles.errorText}>{value.error}</Text>
-      </SafeAreaView>
+<Text style={styles.title}>Sign In</Text>
+<Text style={styles.text}>Welcome back!</Text>
+      <EmailAndPassword></EmailAndPassword>
       <View style={styles.btnView}>
-        <TouchableOpacity style={styles.button} onPress={signIn} >
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")} >
           <Text style={styles.btnText}>Sign in</Text>
         </TouchableOpacity>
         <View style={styles.bottom}>
@@ -90,6 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "flex-start",
     fontFamily: "Roboto",
+
   },
   title: {
     fontSize: 30,
@@ -101,6 +88,9 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     marginTop: 10,
     fontWeight: "600",
+  },
+  errorText: {
+    marginHorizontal: "auto"
   },
   image: {
     margin: 50,

@@ -140,14 +140,14 @@ export default function StatisticsScreen({ navigation }) {
         <View style={styles.subHeader}>
           <Text style={styles.lineGraphText}>Line Graph</Text>
           <View style={styles.roundedArrows}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("StatisticsPieChart")}>
               <Image
                 source={require("../assets/arrowLeft.png")}
                 style={styles.leftRoundedArrow}
                 resizeMode="contain"
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("StatisticsPieChart")}>
               <Image
                 source={require("../assets/arrowRight.png")}
                 style={styles.rightRoundedArrow}
@@ -187,7 +187,6 @@ export default function StatisticsScreen({ navigation }) {
             </TouchableOpacity>
             <Text style={styles.drawerTitle}>March</Text>
             <TouchableOpacity
-              onPress={() => navigation.navigate("StatisticsPieChart")}
             >
               <Image
                 source={require("../assets/rightArrow.png")}

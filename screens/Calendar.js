@@ -9,11 +9,20 @@ import {
   TouchableOpacity,
   FlatList,
   DrawerLayoutAndroid,
+  Alert,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import BottomDrawer from "react-native-bottom-drawer-view";
 import Navigation from "../components/Navigation";
 export default function CalendarScreen({ navigation }) {
+  const AlertButton = () =>
+    Alert.alert("Would you like to add for Expenses or Income?", "", [
+      {
+        text: "Expenses",
+        onPress: () => navigation.navigate("Expenses")
+      },
+      { text: "Income", onPress: () => navigation.navigate("Income") },
+    ]);
   const [selectedDay, setSelectedDay] = useState();
   const [markedDates, setMarkedDates] = useState();
   const DATA = [
@@ -155,8 +164,8 @@ export default function CalendarScreen({ navigation }) {
         </View>
       )}
     >
-      <View>
-      <TouchableOpacity
+      <View style={styles.container}>
+        <TouchableOpacity
           style={styles.hamburger}
           activeOpacity={0.5}
           onPress={() => drawer.current.openDrawer()}
@@ -213,7 +222,7 @@ export default function CalendarScreen({ navigation }) {
                 <Text style={styles.income}>Income</Text>
                 <Text style={styles.moneyEarned}>$0</Text>
               </View>
-              <TouchableOpacity style={styles.plusButton}>
+              <TouchableOpacity style={styles.plusButton} onPress={AlertButton}>
                 <Text style={styles.plus}>+</Text>
               </TouchableOpacity>
             </View>
@@ -225,6 +234,7 @@ export default function CalendarScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  container: { backgroundColor: "white" },
   close: {
     marginTop: 50,
     marginLeft: 15,

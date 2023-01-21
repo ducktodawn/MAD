@@ -8,65 +8,51 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
-  TextInput
+  TextInput,
 } from "react-native";
-
-
-export default function SignUpScreen({navigation}) {
-
-
-  const [email, onChangeEmail] = useState(null);
-  const [password, onChangePassword] = useState(null);
+import EmailAndPassword from "../components/EmailAndPassword";
+export default function SignUpScreen({ navigation }) {
+  // const [email, onChangeEmail] = useState(null);
+  // const [password, onChangePassword] = useState(null);
   const [confirmPassword, onChangeConfirmPassword] = useState(null);
-  const checkIfPasswordsMatch = () => {
-    if (email === "" || email === null) {
-      alert('Please enter email');
-    }
-    else if (password === "" || password === null){
-      alert('Please enter password');
-    }
-    else if (password === confirmPassword) {
-      alert('Account created successfully');
-    } else {
-      alert('Passwords do not match');
-    }
-  }
+  // const checkIfPasswordsMatch = () => {
+  //   if (email === "" || email === null) {
+  //     alert("Please enter email");
+  //   } else if (password === "" || password === null) {
+  //     alert("Please enter password");
+  //   } else if (password === confirmPassword) {
+  //     alert("Account created successfully");
+  //   } else {
+  //     alert("Passwords do not match");
+  //   }
+  // };
   return (
     <View style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.image} />
 
       <Text style={styles.title}>Sign Up</Text>
-      <Text style={styles.text}>Welcome back!</Text>
-      <SafeAreaView>
-        <Text style={styles.inputTitle}>Email</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeEmail}
-          value={email}
-        />
-        <Text style={styles.inputTitle}>Password</Text>
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          onChangeText={onChangePassword}
-          value={password}
-        />
-        <Text style={styles.inputTitle}>Confirm Password</Text>
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          onChangeText={onChangeConfirmPassword}
-          value={confirmPassword}
-        />
-      </SafeAreaView>
+      <Text style={styles.text}>Welcome!</Text>
+      <EmailAndPassword></EmailAndPassword>
+      <Text style={styles.inputTitle}>Confirm Password</Text>
+      <TextInput
+        secureTextEntry={true}
+        style={styles.input}
+        onChangeText={onChangeConfirmPassword}
+        value={confirmPassword}
+      />
       <View style={styles.btnView}>
-        <TouchableOpacity style={styles.button} onPress={checkIfPasswordsMatch}>
+        <TouchableOpacity style={styles.button}>
           <Text style={styles.btnText}>Continue</Text>
         </TouchableOpacity>
         <View style={styles.bottom}>
           <Text style={styles.bottomText}>
             <Text>Have an Account? </Text>
-            <Text style={styles.signup} onPress={() => navigation.navigate("SignIn")} >Sign In</Text>
+            <Text
+              style={styles.signup}
+              onPress={() => navigation.navigate("SignIn")}
+            >
+              Sign In
+            </Text>
           </Text>
         </View>
       </View>
