@@ -6,22 +6,20 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
 import EmailAndPassword from "../components/EmailAndPassword";
 
 export default function SignInScreen({ navigation }) {
-  
-  
   return (
     <KeyboardAvoidingView style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.image} />
       <Text style={styles.title}>Sign In</Text>
       <Text style={styles.text}>Welcome back!</Text>
-      <EmailAndPassword page="signin" navigation={navigation} />
-      <View style={styles.btnView}>
 
+      <EmailAndPassword page="signin" navigation={navigation} />
+
+      <View style={styles.btnView}>
         <View style={styles.bottom}>
           <Text style={styles.bottomText}>
             <Text>Don't have an Account? </Text>
@@ -56,47 +54,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontWeight: "600",
   },
-  errorText: {
-    marginHorizontal: "auto",
-  },
   image: {
     margin: 50,
     width: "30%",
     height: "10%",
     alignSelf: "center",
   },
-  input: {
-    borderColor: "#989eb1",
-    borderBottomWidth: 1,
-    height: 35,
-    padding: 10,
-    margin: 15,
-    marginLeft: 40,
-    minWidth: 300,
-  },
-  inputTitle: {
-    color: "#f85f6a",
-    marginLeft: 40,
-    marginTop: 20,
-    fontWeight: "700",
-  },
   btnView: {
     marginTop: 20,
     width: "100%",
     height: 60,
     alignItems: "center",
-  },
-  button: {
-    justifyContent: "center",
-    alignSelf: "center",
-    backgroundColor: "#f85f6a",
-    padding: 15,
-    paddingHorizontal: 120,
-    borderRadius: 10,
-  },
-  btnText: {
-    color: "white",
-    fontWeight: "900",
   },
   bottom: {
     flexDirection: "column",

@@ -56,23 +56,21 @@ export default function EmailAndPassword({ page, navigation }) {
   };
 
   return (
-    <View>
-      <SafeAreaView>
-        <Text style={styles.inputTitle}>Email</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(text) => onChangeEmail(text)}
-          keyboardType="email-address"
-          value={email}
-        />
-        <Text style={styles.inputTitle}>Password</Text>
-        <TextInput
-          secureTextEntry={true}
-          style={styles.input}
-          onChangeText={(text) => onChangePassword(text)}
-          value={password}
-        />
-      </SafeAreaView>
+    <View style={styles.container}>
+      <Text style={styles.inputTitle}>Email</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={(text) => onChangeEmail(text)}
+        keyboardType="email-address"
+        value={email}
+      />
+      <Text style={styles.inputTitle}>Password</Text>
+      <TextInput
+        secureTextEntry={true}
+        style={styles.input}
+        onChangeText={(text) => onChangePassword(text)}
+        value={password}
+      />
       {page === "signup" && (
         <View>
           <Text style={styles.inputTitle}>Confirm Password</Text>
@@ -84,7 +82,6 @@ export default function EmailAndPassword({ page, navigation }) {
           />
         </View>
       )}
-
       {page === "signin" && (
         <TouchableOpacity style={styles.button} onPress={onHandleSignIn}>
           <Text style={styles.btnText}>Sign in</Text>
@@ -100,6 +97,9 @@ export default function EmailAndPassword({ page, navigation }) {
   );
 }
 const styles = StyleSheet.create({
+  container: {
+    width: "100%"
+  },
   title: {
     fontSize: 30,
     marginLeft: 40,
@@ -121,9 +121,8 @@ const styles = StyleSheet.create({
     borderColor: "#989eb1",
     borderBottomWidth: 1,
     height: 35,
-    padding: 10,
-    margin: 15,
-    marginLeft: 40,
+    marginVertical: 15,
+    marginHorizontal: 40,
     minWidth: 300,
   },
   inputTitle: {
@@ -134,7 +133,6 @@ const styles = StyleSheet.create({
   },
   btnView: {
     marginTop: 20,
-    width: "100%",
     height: 60,
     alignItems: "center",
   },
@@ -144,6 +142,7 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingHorizontal: 120,
     borderRadius: 10,
+    marginTop: 10,
   },
   btnText: {
     color: "white",

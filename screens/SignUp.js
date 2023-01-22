@@ -1,42 +1,24 @@
 // Names: Dawn Oh Le Qian (2222923) Jeanette Ong Jing Xuan (2222808)
 // Class: DIT/FT/1B/05
-import { useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Image,
-  TouchableOpacity,
-  TextInput,
   KeyboardAvoidingView,
 } from "react-native";
 import EmailAndPassword from "../components/EmailAndPassword";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import {auth} from '../config/firebase'
 export default function SignUpScreen({ navigation }) {
-  // const [email, onChangeEmail] = useState(null);
-  // const [password, onChangePassword] = useState(null);
-
-  // const checkIfPasswordsMatch = () => {
-  //   if (email === "" || email === null) {
-  //     alert("Please enter email");
-  //   } else if (password === "" || password === null) {
-  //     alert("Please enter password");
-  //   } else if (password === confirmPassword) {
-  //     alert("Account created successfully");
-  //   } else {
-  //     alert("Passwords do not match");
-  //   }
-  // };
   return (
     <KeyboardAvoidingView style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.image} />
 
       <Text style={styles.title}>Sign Up</Text>
       <Text style={styles.text}>Welcome!</Text>
+
       <EmailAndPassword page="signup" navigation={navigation} />
+
       <View style={styles.btnView}>
-        
         <View style={styles.bottom}>
           <Text style={styles.bottomText}>
             <Text>Have an Account? </Text>
@@ -77,38 +59,11 @@ const styles = StyleSheet.create({
     height: "10%",
     alignSelf: "center",
   },
-  input: {
-    borderColor: "#989eb1",
-    borderBottomWidth: 1,
-    height: 35,
-    padding: 10,
-    margin: 15,
-    marginLeft: 40,
-    minWidth: 300,
-  },
-  inputTitle: {
-    color: "#f85f6a",
-    marginLeft: 40,
-    marginTop: 20,
-    fontWeight: "700",
-  },
   btnView: {
     marginTop: 20,
     width: "100%",
     height: 60,
     alignItems: "center",
-  },
-  button: {
-    justifyContent: "center",
-    alignSelf: "center",
-    backgroundColor: "#f85f6a",
-    padding: 15,
-    paddingHorizontal: 120,
-    borderRadius: 10,
-  },
-  btnText: {
-    color: "white",
-    fontWeight: "900",
   },
   bottom: {
     flexDirection: "column",
