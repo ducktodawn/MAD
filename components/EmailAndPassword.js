@@ -33,6 +33,8 @@ export default function EmailAndPassword({ page, navigation }) {
         alert("Email does not have a registered account with our app");
       } else if (error.message === "Firebase: Error (auth/wrong-password).") {
         alert("Incorrect password");
+      } else if (error.message === "Firebase: Password should be at least 6 characters (auth/weak-password)."){
+        alert("Weak password, minimum 6 characters")
       }
       console.log(error.message);
     }
