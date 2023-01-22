@@ -7,14 +7,16 @@ import {
   View,
   Image,
   TouchableOpacity,
-  SafeAreaView,
   TextInput,
+  KeyboardAvoidingView,
 } from "react-native";
 import EmailAndPassword from "../components/EmailAndPassword";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import {auth} from '../config/firebase'
 export default function SignUpScreen({ navigation }) {
   // const [email, onChangeEmail] = useState(null);
   // const [password, onChangePassword] = useState(null);
-  const [confirmPassword, onChangeConfirmPassword] = useState(null);
+
   // const checkIfPasswordsMatch = () => {
   //   if (email === "" || email === null) {
   //     alert("Please enter email");
@@ -27,23 +29,14 @@ export default function SignUpScreen({ navigation }) {
   //   }
   // };
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.image} />
 
       <Text style={styles.title}>Sign Up</Text>
       <Text style={styles.text}>Welcome!</Text>
-      <EmailAndPassword></EmailAndPassword>
-      <Text style={styles.inputTitle}>Confirm Password</Text>
-      <TextInput
-        secureTextEntry={true}
-        style={styles.input}
-        onChangeText={onChangeConfirmPassword}
-        value={confirmPassword}
-      />
+      <EmailAndPassword page="signup" navigation={navigation} />
       <View style={styles.btnView}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.btnText}>Continue</Text>
-        </TouchableOpacity>
+        
         <View style={styles.bottom}>
           <Text style={styles.bottomText}>
             <Text>Have an Account? </Text>
@@ -56,7 +49,7 @@ export default function SignUpScreen({ navigation }) {
           </Text>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

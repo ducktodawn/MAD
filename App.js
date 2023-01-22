@@ -12,7 +12,7 @@ import ExpensesScreen from "./screens/Expenses"
 import IncomeScreen from "./screens/Income"
 const Stack = createNativeStackNavigator();
 
-export default function userStack() {
+export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SignIn">

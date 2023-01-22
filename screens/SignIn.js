@@ -7,68 +7,36 @@ import {
   View,
   Image,
   TouchableOpacity,
-  SafeAreaView,
-  TextInput
+  KeyboardAvoidingView,
 } from "react-native";
 import EmailAndPassword from "../components/EmailAndPassword";
-import auth from "@react-native-firebase/auth";
-import { signInWithEmailAndPassword } from "@react-native-firebase/auth";
 
-
-
-
-export default function SignInScreen({navigation}) {
-
-  // async function signIn() {
-  //   if (value.email === "" || value.password === "") {
-  //     setValue({
-  //       ...value,
-  //       error: "Email and password are mandatory.",
-  //     });
-  //     return;
-  //   }
-
-  //   try {
-  //     await signInWithEmailAndPassword(value.email, value.password);
-
-  //     setValue({
-  //       ...value,
-  //       email: "",
-  //       password: "",
-  //       error: "",
-  //     });
-      
-  //     navigation.navigate("Home");
-  //   } catch (error) {
-  //     setValue({
-  //       ...value,
-  //       error: error.message,
-  //     });
-    // }
-//  }
+export default function SignInScreen({ navigation }) {
+  
   
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.image} />
-
-<Text style={styles.title}>Sign In</Text>
-<Text style={styles.text}>Welcome back!</Text>
-      <EmailAndPassword></EmailAndPassword>
+      <Text style={styles.title}>Sign In</Text>
+      <Text style={styles.text}>Welcome back!</Text>
+      <EmailAndPassword page="signin" navigation={navigation} />
       <View style={styles.btnView}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")} >
-          <Text style={styles.btnText}>Sign in</Text>
-        </TouchableOpacity>
+
         <View style={styles.bottom}>
           <Text style={styles.bottomText}>
             <Text>Don't have an Account? </Text>
-            <Text style={styles.signup} onPress={() => navigation.navigate("SignUp")} >Sign up</Text>
+            <Text
+              style={styles.signup}
+              onPress={() => navigation.navigate("SignUp")}
+            >
+              Sign Up
+            </Text>
           </Text>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -76,7 +44,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "flex-start",
     fontFamily: "Roboto",
-
   },
   title: {
     fontSize: 30,
@@ -90,7 +57,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   errorText: {
-    marginHorizontal: "auto"
+    marginHorizontal: "auto",
   },
   image: {
     margin: 50,
