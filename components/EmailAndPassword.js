@@ -13,6 +13,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from '../config/firebase';
 
 export default function EmailAndPassword({ page, navigation }) {
   const [email, onChangeEmail] = useState("");
@@ -21,7 +23,16 @@ export default function EmailAndPassword({ page, navigation }) {
   const onHandleSignIn = async () => {
     try {
       if (email !== "" && password != "") {
-        await signInWithEmailAndPassword(auth, email, password);
+        let userCredentials = await signInWithEmailAndPassword(auth, email, password);
+        if (userCredentials.user) {
+          const querySnapshot = await getDocs(collection(db, "users"));
+          querySnapshot.forEach((doc) => {
+            if (userCredentials.user.uid === doc.id) {
+              console.log(doc.id);
+              console.log(doc.data());
+            }
+          });
+        }
         navigation.navigate("Home");
       } else {
         alert("Both fields are required");
@@ -33,7 +44,7 @@ export default function EmailAndPassword({ page, navigation }) {
         alert("Email does not have a registered account with our app");
       } else if (error.message === "Firebase: Error (auth/wrong-password).") {
         alert("Incorrect password");
-      } else if (error.message === "Firebase: Password should be at least 6 characters (auth/weak-password)."){
+      } else if (error.message === "Firebase: Password should be at least 6 characters (auth/weak-password).") {
         alert("Weak password, minimum 6 characters")
       }
       console.log(error.message);

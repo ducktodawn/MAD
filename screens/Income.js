@@ -36,9 +36,9 @@ export default function IncomeScreen({navigation}) {
       />
       <Text style={styles.typeOfIncome}>Type of Income</Text>
       <ExpensesAndIncome data={DATA}></ExpensesAndIncome>
-      <TouchableOpacity>
+      {/* <TouchableOpacity>
         <Text style={styles.button}>Done</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

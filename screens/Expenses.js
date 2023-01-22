@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import ExpensesAndIncome from '../components/ExpensesAndIncome';
-export default function ExpensesScreen({navigation}) {
+export default function ExpensesScreen({ navigation }) {
   const [value, setValue] = useState('');
 
 
@@ -17,10 +17,9 @@ export default function ExpensesScreen({navigation}) {
     { id: '7', title: 'Others', image: require('../assets/others.png'), selectedImage: require('../assets/othersRed.png') },
   ];
 
- 
-  const handlePress = (item) => {
-    setSelected(item.id);
-  };
+  // const onPress = (value) => {
+  //   setSelected(item.id);
+  // };
 
   return (
     <View>
@@ -40,12 +39,8 @@ export default function ExpensesScreen({navigation}) {
         value={value}   //value of input
       />
       <Text style={styles.typeOfExpense}>Type of Expense</Text>
-      
-  <ExpensesAndIncome data={DATA}></ExpensesAndIncome>
-     
-      <TouchableOpacity>
-        <Text style={styles.button}>Done</Text>
-      </TouchableOpacity>
+      <ExpensesAndIncome data={DATA} value={{value}}></ExpensesAndIncome>
+
     </View>
   );
 };

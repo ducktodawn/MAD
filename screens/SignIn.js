@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import EmailAndPassword from "../components/EmailAndPassword";
 
+
 export default function SignInScreen({ navigation }) {
   return (
     <KeyboardAvoidingView style={styles.container}>
