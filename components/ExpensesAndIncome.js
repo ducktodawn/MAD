@@ -1,9 +1,9 @@
 import { View, FlatList, StyleSheet, TouchableOpacity, Image, Text } from "react-native";
 import { useState } from 'react';
 import { collection, addDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { db } from '../config/firebase';
-export default function ExpensesAndIncome({ data }, value) {
+export default function ExpensesAndIncome({ data, value }) {
   const [selected, setSelected] = useState();
   function Item({ id, title, image, selectedImage, onPress, style }) {
     return (
@@ -27,21 +27,18 @@ export default function ExpensesAndIncome({ data }, value) {
     try {
       const auth = getAuth();
       const user = auth.currentUser;
-      console.log(user.uid);
       if (data.length == 5) {
-        const docRef = await addDoc(collection(db, `/users/${user.uid}/income`), {
-          first: "test",
-          last: "test",
-          born: 1815
+        await addDoc(collection(db, `/users/${user.uid}/income`), {
+          amount: value,
+          type: data[selected-1].title
         });
-        console.log("Document written with ID: ", docRef.id);
+        // console.log("Document written with ID: ", docRef.id);
       } else {
-        const docRef = await addDoc(collection(db, `/users/${user.uid}/expenses`), {
-          first: "test",
-          last: "test",
-          born: 1815
+        await addDoc(collection(db, `/users/${user.uid}/expenses`), {
+          amount: value,
+          type: data[selected-1].title
         });
-        console.log("Document written with ID: ", docRef.id);
+        // console.log("Document written with ID: ", docRef.id);
       }
     } catch (e) {
       console.error("Error adding document: ", e);

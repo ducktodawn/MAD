@@ -13,7 +13,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { db } from '../config/firebase';
 
 export default function EmailAndPassword({ page, navigation }) {
@@ -23,16 +23,7 @@ export default function EmailAndPassword({ page, navigation }) {
   const onHandleSignIn = async () => {
     try {
       if (email !== "" && password != "") {
-        let userCredentials = await signInWithEmailAndPassword(auth, email, password);
-        if (userCredentials.user) {
-          const querySnapshot = await getDocs(collection(db, "users"));
-          querySnapshot.forEach((doc) => {
-            if (userCredentials.user.uid === doc.id) {
-              console.log(doc.id);
-              console.log(doc.data());
-            }
-          });
-        }
+        await signInWithEmailAndPassword(auth, email, password);
         navigation.navigate("Home");
       } else {
         alert("Both fields are required");
@@ -55,8 +46,13 @@ export default function EmailAndPassword({ page, navigation }) {
       if (password !== confirmPassword) {
         alert("Passwords do not match");
       } else if (email !== "" && password !== "" && confirmPassword !== "") {
-        await createUserWithEmailAndPassword(auth, email, password);
+        let userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+        if (userCredentials.user) {
+          await setDoc(doc(db, "users", userCredentials.user.uid),{});
+        }
         navigation.navigate("SignIn");
+        
+        
       } else {
         alert("All fields are required");
       }
