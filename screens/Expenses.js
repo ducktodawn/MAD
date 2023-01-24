@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, FlatList, TouchableOpacity } from 'react-native';
 import ExpensesAndIncome from '../components/ExpensesAndIncome';
-export default function ExpensesScreen({ navigation }) {
+export default function ExpensesScreen({ route, navigation }) {
   const [value, setValue] = useState('');
-
-
+  const { date } = route.params;
+  
   const DATA = [
     { id: '1', title: 'Food', image: require('../assets/food.png'), selectedImage: require('../assets/foodRed.png') },
     { id: '2', title: 'Transport', image: require('../assets/transport.png'), selectedImage: require('../assets/transportRed.png') },
@@ -39,7 +39,7 @@ export default function ExpensesScreen({ navigation }) {
         value={value}   //value of input
       />
       <Text style={styles.typeOfExpense}>Type of Expense</Text>
-      <ExpensesAndIncome data={DATA} value={value} navigation={navigation}></ExpensesAndIncome>
+      <ExpensesAndIncome data={DATA} value={value} navigation={navigation} date={date}></ExpensesAndIncome>
     </View>
   );
 };
@@ -47,7 +47,7 @@ export default function ExpensesScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-   backgroundColor: "white",
+    backgroundColor: "white",
   },
   backArrow: {
     width: 10,

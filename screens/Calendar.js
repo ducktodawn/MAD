@@ -14,14 +14,15 @@ import {
 import { Calendar } from "react-native-calendars";
 import BottomDrawer from "react-native-bottom-drawer-view";
 import Navigation from "../components/Navigation";
+import { collection, getDocs } from "firebase/firestore";
 export default function CalendarScreen({ navigation }) {
   const AlertButton = () =>
     Alert.alert("Would you like to add for Expenses or Income?", "", [
       {
         text: "Expenses",
-        onPress: () => navigation.navigate("Expenses")
+        onPress: () => navigation.navigate("Expenses", { date: selectedDay })
       },
-      { text: "Income", onPress: () => navigation.navigate("Income") },
+      { text: "Income", onPress: () => navigation.navigate("Income", { date: selectedDay }) },
     ]);
   const [selectedDay, setSelectedDay] = useState();
   const [markedDates, setMarkedDates] = useState();
@@ -76,6 +77,7 @@ export default function CalendarScreen({ navigation }) {
       cost: "$1",
     },
   ];
+  
   const renderItem = ({ item }) => (
     <Item
       title={item.title}
