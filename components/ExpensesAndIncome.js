@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from '../config/firebase';
-export default function ExpensesAndIncome({ data, value }) {
+export default function ExpensesAndIncome({ data, value, navigation }) {
   const [selected, setSelected] = useState();
   function Item({ id, title, image, selectedImage, onPress, style }) {
     return (
@@ -75,7 +75,7 @@ export default function ExpensesAndIncome({ data, value }) {
         style={styles.flatList}
       />
       <TouchableOpacity>
-        <Text style={styles.button} onPress={onPress}>Done</Text>
+        <Text style={styles.button} onPress={() => navigation.navigate("Calendar")}>Done</Text>
       </TouchableOpacity>
     </View>
   );

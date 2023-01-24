@@ -50,7 +50,7 @@ export default function StatisticsScreen({ navigation }) {
     return (
       <Text
         style={
-          id === "12" ? styles.dec : id === "11" ? styles.nov : styles.others
+          styles.others
         }
       >
         {id}
@@ -125,9 +125,10 @@ export default function StatisticsScreen({ navigation }) {
           ></Navigation>
         </View>
       )}
+      style={styles.container}
     >
-      <View>
         <View>
+      <View>
           <TouchableOpacity
             style={styles.hamburger}
             activeOpacity={0.5}
@@ -137,7 +138,7 @@ export default function StatisticsScreen({ navigation }) {
           </TouchableOpacity>
           <Text style={styles.statistics}>Statistics</Text>
         </View>
-        <View style={styles.subHeader}>
+        <View style={[styles.subHeader, styles.container]}>
           <Text style={styles.lineGraphText}>Line Graph</Text>
           <View style={styles.roundedArrows}>
             <TouchableOpacity onPress={() => navigation.navigate("StatisticsPieChart")}>
@@ -216,9 +217,7 @@ export default function StatisticsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "white"
   },
   close: {
     marginTop: 50,
@@ -239,14 +238,6 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     fontWeight: "bold",
   },
-  dec: {
-    fontSize: 10,
-    paddingLeft: 20,
-  },
-  nov: {
-    fontSize: 10,
-    paddingLeft: 20,
-  },
   others: {
     fontSize: 10,
     paddingLeft: 20,
@@ -261,6 +252,7 @@ const styles = StyleSheet.create({
     color: "#35424a",
     fontSize: 17,
     paddingLeft: 50,
+    
   },
   roundedArrows: {
     flexDirection: "row",

@@ -22,7 +22,7 @@ export default function ExpensesScreen({ navigation }) {
   // };
 
   return (
-    <View>
+    <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={{ flexDirection: 'row', paddingTop: 30, paddingLeft: 10 }}>
         <Image
           source={require('../assets/greyArrow.png')}
@@ -39,7 +39,7 @@ export default function ExpensesScreen({ navigation }) {
         value={value}   //value of input
       />
       <Text style={styles.typeOfExpense}>Type of Expense</Text>
-      <ExpensesAndIncome data={DATA} value={{value}}></ExpensesAndIncome>
+      <ExpensesAndIncome data={DATA} value={{value}} navigation={navigation}></ExpensesAndIncome>
     </View>
   );
 };
@@ -47,10 +47,7 @@ export default function ExpensesScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+   backgroundColor: "white",
   },
   backArrow: {
     width: 10,

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Dimensions,
   FlatList,
+  DrawerLayoutAndroid,
 } from "react-native";
 import { PieChart } from "react-native-chart-kit";
 import BottomDrawer from "react-native-bottom-drawer-view";
@@ -102,91 +103,118 @@ export default function StatisticsPieChart({ navigation }) {
   };
 
   return (
-    <View>
+    <DrawerLayoutAndroid
+      ref={drawer}
+      drawerWidth={200}
+      renderNavigationView={() => (
+        <View>
+          <TouchableOpacity
+            style={styles.close}
+            activeOpacity={0.5}
+            onPress={() => drawer.current.closeDrawer()}
+          >
+            <Image
+              source={require("../assets/closeButton.png")}
+              style={styles.closeImage}
+            />
+          </TouchableOpacity>
+          <Navigation
+            navigationItems={navigationItems}
+            navigation={navigation}
+          ></Navigation>
+        </View>
+      )}
+      style={styles.container}
+    >
       <View>
-        <TouchableOpacity>
-          <View>
-            <Image
-              source={require("../assets/hamburger.png")}
-              style={styles.hamburger}
-              resizeMode="contain"
-            />
+        <View>
+          <TouchableOpacity
+            style={styles.hamburger}
+            activeOpacity={0.5}
+            onPress={() => drawer.current.openDrawer()}
+          >
+            <Image source={require("../assets/hamburger.png")} />
+          </TouchableOpacity>
+          <Text style={styles.statistics}>Statistics</Text>
+        </View>
+        <View style={styles.subHeader}>
+          <Text style={styles.pieGraphText}>Pie Chart</Text>
+          <View style={styles.roundedArrows}>
+            <TouchableOpacity onPress={() => navigation.navigate("Statistics")}>
+              <Image
+                source={require("../assets/arrowLeft.png")}
+                style={styles.leftRoundedArrow}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Statistics")}>
+              <Image
+                source={require("../assets/arrowRight.png")}
+                style={styles.rightRoundedArrow}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-        <Text style={styles.statistics}>Statistics</Text>
-      </View>
-      <View style={styles.subHeader}>
-        <Text style={styles.pieGraphText}>Pie Chart</Text>
-        <View style={styles.roundedArrows}>
-          <TouchableOpacity onPress={() => navigation.navigate("Statistics")}>
-            <Image
-              source={require("../assets/arrowLeft.png")}
-              style={styles.leftRoundedArrow}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate("Statistics")}>
-            <Image
-              source={require("../assets/arrowRight.png")}
-              style={styles.rightRoundedArrow}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
         </View>
-      </View>
 
-      <PieChart
-        data={data}
-        width={screenWidth}
-        height={220}
-        chartConfig={chartConfig}
-        accessor="expenses"
-        backgroundColor="transparent"
-      />
-
-      <BottomDrawer containerHeight={253} roundedEdges={true}>
-        <View style={styles.drawerHeader}>
-          <TouchableOpacity>
-            <Image
-              source={require("../assets/leftArrow.png")}
-              style={styles.arrows}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-          <Text style={styles.drawerTitle}>March</Text>
-          <TouchableOpacity>
-            <Image
-              source={require("../assets/rightArrow.png")}
-              style={styles.arrows}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          data={expenses}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+        <PieChart
+          data={data}
+          width={screenWidth}
+          height={220}
+          chartConfig={chartConfig}
+          accessor="expenses"
+          backgroundColor="transparent"
         />
-        <View style={styles.goal}>
-          <Image
-            source={require("../assets/tick.png")}
-            style={styles.tick}
-            resizeMode="contain"
+
+        <BottomDrawer containerHeight={253} roundedEdges={true}>
+          <View style={styles.drawerHeader}>
+            <TouchableOpacity>
+              <Image
+                source={require("../assets/leftArrow.png")}
+                style={styles.arrows}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+            <Text style={styles.drawerTitle}>March</Text>
+            <TouchableOpacity>
+              <Image
+                source={require("../assets/rightArrow.png")}
+                style={styles.arrows}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={expenses}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
           />
-          <Text style={styles.monthlyGoal}>Monthly goal reached</Text>
-        </View>
-      </BottomDrawer>
-    </View>
+          <View style={styles.goal}>
+            <Image
+              source={require("../assets/tick.png")}
+              style={styles.tick}
+              resizeMode="contain"
+            />
+            <Text style={styles.monthlyGoal}>Monthly goal reached</Text>
+          </View>
+        </BottomDrawer>
+      </View>
+    </DrawerLayoutAndroid>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    fontFamily: "roboto",
+    backgroundColor: "white",
+    fontFamily: "Roboto",
+  },
+  close: {
+    marginTop: 50,
+    marginLeft: 15,
+  },
+  closeImage: {
+    height: 25,
+    width: 25,
   },
   hamburger: {
     height: 30,
