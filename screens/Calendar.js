@@ -120,6 +120,7 @@ export default function CalendarScreen({ navigation }) {
     });
   };
   const formatDate = (dateString) => {
+    // console.log(dateString);
     const monthArr = [
       "January",
       "February",

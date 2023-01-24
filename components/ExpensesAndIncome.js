@@ -40,6 +40,7 @@ export default function ExpensesAndIncome({ data, value, navigation }) {
         });
         // console.log("Document written with ID: ", docRef.id);
       }
+      navigation.navigate("Calendar");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -75,7 +76,7 @@ export default function ExpensesAndIncome({ data, value, navigation }) {
         style={styles.flatList}
       />
       <TouchableOpacity>
-        <Text style={styles.button} onPress={() => navigation.navigate("Calendar")}>Done</Text>
+        <Text style={styles.button} onPress={onPress}>Done</Text>
       </TouchableOpacity>
     </View>
   );

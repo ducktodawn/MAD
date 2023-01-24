@@ -39,7 +39,7 @@ export default function ExpensesScreen({ navigation }) {
         value={value}   //value of input
       />
       <Text style={styles.typeOfExpense}>Type of Expense</Text>
-      <ExpensesAndIncome data={DATA} value={{value}} navigation={navigation}></ExpensesAndIncome>
+      <ExpensesAndIncome data={DATA} value={value} navigation={navigation}></ExpensesAndIncome>
     </View>
   );
 };

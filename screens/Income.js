@@ -35,10 +35,7 @@ export default function IncomeScreen({navigation}) {
         value={value}   //value of input
       />
       <Text style={styles.typeOfIncome}>Type of Income</Text>
-      <ExpensesAndIncome data={DATA} navigation={navigation}></ExpensesAndIncome>
-      {/* <TouchableOpacity>
-        <Text style={styles.button}>Done</Text>
-      </TouchableOpacity> */}
+      <ExpensesAndIncome data={DATA} value ={value} navigation={navigation}></ExpensesAndIncome>
     </View>
   );
 };
