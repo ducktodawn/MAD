@@ -14,6 +14,7 @@ import {
 import { PieChart } from "react-native-chart-kit";
 import BottomDrawer from "react-native-bottom-drawer-view";
 import Navigation from "../components/Navigation";
+import StatisticsArrows from "../components/StatisticsArrows";
 /*Reasons for changes in pie chart
 1. Percentage in the legend --> no need to look at two places at once and users can see both the category and percentage at the same place
 2. Legend at the right side of the pie chart --> same level of vision and users can have a side by side comparison between the pie chart and legend
@@ -139,22 +140,7 @@ export default function StatisticsPieChart({ navigation }) {
         </View>
         <View style={styles.subHeader}>
           <Text style={styles.pieGraphText}>Pie Chart</Text>
-          <View style={styles.roundedArrows}>
-            <TouchableOpacity onPress={() => navigation.navigate("Statistics")}>
-              <Image
-                source={require("../assets/arrowLeft.png")}
-                style={styles.leftRoundedArrow}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("Statistics")}>
-              <Image
-                source={require("../assets/arrowRight.png")}
-                style={styles.rightRoundedArrow}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View>
+          <StatisticsArrows navigation={navigation} navigatePage="Statistics" />
         </View>
 
         <PieChart
@@ -237,20 +223,6 @@ const styles = StyleSheet.create({
     color: "#35424a",
     fontSize: 17,
     paddingLeft: 50,
-  },
-  roundedArrows: {
-    flexDirection: "row",
-    marginRight: 20,
-  },
-  leftRoundedArrow: {
-    width: 25,
-    height: 25,
-    marginRight: 5,
-  },
-  rightRoundedArrow: {
-    width: 25,
-    height: 25,
-    marginLeft: 5,
   },
   drawerHeader: {
     flexDirection: "row",

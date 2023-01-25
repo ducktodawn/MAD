@@ -12,6 +12,7 @@ import {
   DrawerLayoutAndroid,
 } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import StatisticsArrows from "../components/StatisticsArrows";
 import BottomDrawer from "react-native-bottom-drawer-view";
 import Navigation from "../components/Navigation";
 
@@ -140,22 +141,7 @@ export default function StatisticsScreen({ navigation }) {
         </View>
         <View style={[styles.subHeader, styles.container]}>
           <Text style={styles.lineGraphText}>Line Graph</Text>
-          <View style={styles.roundedArrows}>
-            <TouchableOpacity onPress={() => navigation.navigate("StatisticsPieChart")}>
-              <Image
-                source={require("../assets/arrowLeft.png")}
-                style={styles.leftRoundedArrow}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("StatisticsPieChart")}>
-              <Image
-                source={require("../assets/arrowRight.png")}
-                style={styles.rightRoundedArrow}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View>
+          <StatisticsArrows navigation={navigation} navigatePage="StatisticsPieChart" />
         </View>
         <LineChart
           data={data}
@@ -253,20 +239,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     paddingLeft: 50,
     
-  },
-  roundedArrows: {
-    flexDirection: "row",
-    marginRight: 20,
-  },
-  leftRoundedArrow: {
-    width: 25,
-    height: 25,
-    marginRight: 5,
-  },
-  rightRoundedArrow: {
-    width: 25,
-    height: 25,
-    marginLeft: 5,
   },
   flatList: {
     marginLeft: 40,
