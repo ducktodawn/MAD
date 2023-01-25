@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from '../config/firebase';
-export default function ExpensesAndIncome({ data, value, navigation }) {
+export default function ExpensesAndIncome({ data, value, navigation, date }) {
   const [selected, setSelected] = useState();
   function Item({ id, title, image, selectedImage, onPress, style }) {
     return (
@@ -29,14 +29,16 @@ export default function ExpensesAndIncome({ data, value, navigation }) {
       const user = auth.currentUser;
       if (data.length == 5) {
         await addDoc(collection(db, `/users/${user.uid}/income`), {
+          date: date,
           amount: value,
-          type: data[selected-1].title
+          type: data[selected - 1].title
         });
         // console.log("Document written with ID: ", docRef.id);
       } else {
         await addDoc(collection(db, `/users/${user.uid}/expenses`), {
+          date: date,
           amount: value,
-          type: data[selected-1].title
+          type: data[selected - 1].title
         });
         // console.log("Document written with ID: ", docRef.id);
       }
