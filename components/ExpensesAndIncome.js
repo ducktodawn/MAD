@@ -30,17 +30,19 @@ export default function ExpensesAndIncome({ data, value, navigation, date }) {
       if (data.length == 5) {
         await addDoc(collection(db, `/users/${user.uid}/income`), {
           date: date,
-          amount: value,
-          type: data[selected - 1].title
+          amount: "$"+value,
+          title: data[selected - 1].title,
+          image: data[selected-1].image,
+          type: "Income"
         });
-        // console.log("Document written with ID: ", docRef.id);
       } else {
         await addDoc(collection(db, `/users/${user.uid}/expenses`), {
           date: date,
-          amount: value,
-          type: data[selected - 1].title
+          amount: "$"+value,
+          title: data[selected - 1].title,
+          image: data[selected-1].image,
+          type: "Expenses"
         });
-        // console.log("Document written with ID: ", docRef.id);
       }
       navigation.navigate("Calendar");
     } catch (e) {

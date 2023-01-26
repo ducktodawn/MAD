@@ -14,7 +14,10 @@ import {
 import { Calendar } from "react-native-calendars";
 import BottomDrawer from "react-native-bottom-drawer-view";
 import Navigation from "../components/Navigation";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs } from "firebase/firestore";
+import { db } from '../config/firebase';
+import { getAuth } from "firebase/auth";
+
 export default function CalendarScreen({ navigation }) {
   const AlertButton = () =>
     Alert.alert("Would you like to add for Expenses or Income?", "", [
@@ -22,68 +25,49 @@ export default function CalendarScreen({ navigation }) {
         text: "Expenses",
         onPress: () => navigation.navigate("Expenses", { date: selectedDay })
       },
-      { text: "Income", onPress: () => navigation.navigate("Income", { date: selectedDay }) },
+      {
+        text: "Income",
+        onPress: () => navigation.navigate("Income", { date: selectedDay })
+      },
     ]);
   const [selectedDay, setSelectedDay] = useState();
   const [markedDates, setMarkedDates] = useState();
-  const DATA = [
-    {
-      id: "1",
-      title: "Food",
-      image: require("../assets/food.png"),
-      selectedImage: require("../assets/foodRed.png"),
-      cost: "$2",
-    },
-    {
-      id: "2",
-      title: "Transport",
-      image: require("../assets/transport.png"),
-      selectedImage: require("../assets/transportRed.png"),
-      cost: "$1",
-    },
-    {
-      id: "3",
-      title: "Shopping",
-      image: require("../assets/shopping.png"),
-      selectedImage: require("../assets/shoppingRed.png"),
-      cost: "$2",
-    },
-    {
-      id: "4",
-      title: "Apparel",
-      image: require("../assets/apparel.png"),
-      selectedImage: require("../assets/apparelRed.png"),
-      cost: "$1",
-    },
-    {
-      id: "5",
-      title: "Education",
-      image: require("../assets/education.png"),
-      selectedImage: require("../assets/educationRed.png"),
-      cost: "$1",
-    },
-    {
-      id: "6",
-      title: "Entertainment",
-      image: require("../assets/gaming.png"),
-      selectedImage: require("../assets/gamingRed.png"),
-      cost: "$2",
-    },
-    {
-      id: "7",
-      title: "Others",
-      image: require("../assets/others.png"),
-      selectedImage: require("../assets/othersRed.png"),
-      cost: "$1",
-    },
-  ];
-  
+  const [data, setData] = useState([]); // Initial empty array of users
+  const [moneyEarned, setMoneyEarned] = useState(0);
+  const [moneyLost, setMoneyLost] = useState(0);
+
+  const displayList = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const DATA = [];
+    let moneyLost = 0;
+    let moneyEarned = 0;
+    const querySnapshot = await getDocs(collection(db, `/users/${user.uid}/expenses`));
+    const querySnapshot2 = await getDocs(collection(db, `/users/${user.uid}/income`));
+    querySnapshot.forEach((doc) => {
+      if (doc.data().date == selectedDay) {
+        DATA.push(doc.data());
+        moneyLost += parseFloat(doc.data().amount.slice(1));
+      }
+    });
+    querySnapshot2.forEach((doc) => {
+      if (doc.data().date == selectedDay) {
+        DATA.push(doc.data());
+        moneyEarned += parseFloat(doc.data().amount.slice(1));
+      }
+    });
+    setMoneyLost(moneyLost);
+    setMoneyEarned(moneyEarned);
+    setData(DATA);
+  }
+
   const renderItem = ({ item }) => (
     <Item
       title={item.title}
       image={item.image}
       style={styles.item}
-      cost={item.cost}
+      amount={item.amount}
+      type={item.type}
     />
   );
   const navigationItems = [
@@ -92,14 +76,14 @@ export default function CalendarScreen({ navigation }) {
     { index: 2, title: "Statistics", selected: 1 },
     { index: 3, title: "Transactions", selected: 1 },
   ];
-  function Item({ title, image, style, cost }) {
+  function Item({ title, image, style, amount, type }) {
     return (
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <View style={{ flexDirection: "row" }}>
           <Image source={image} style={styles.icons} resizeMode="contain" />
           <Text style={style}>{title}</Text>
         </View>
-        <Text style={styles.cost}>{cost}</Text>
+        <Text style={type === "Income" ? styles.earnings : styles.cost}>{amount}</Text>
       </View>
     );
   }
@@ -114,6 +98,10 @@ export default function CalendarScreen({ navigation }) {
       [currentDate]: { selected: true, selectedColor: "#f85f6a" },
     });
   }, []);
+
+  useEffect(() => {
+    displayList();
+  });
 
   const handleDayPress = (day) => {
     setSelectedDay(day.dateString);
@@ -191,14 +179,12 @@ export default function CalendarScreen({ navigation }) {
               arrowColor: "#f85f6a",
             }}
           />
-
           <FlatList
-            data={DATA}
+            data={data}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
             style={styles.flatList}
           />
-
           <BottomDrawer
             containerHeight={190}
             shadow={true} //shadow only appears on ios
@@ -219,11 +205,11 @@ export default function CalendarScreen({ navigation }) {
               </View>
               <View style={styles.expensesRow}>
                 <Text style={styles.expenses}>Expenses</Text>
-                <Text style={styles.moneyLost}>$10</Text>
+                <Text style={styles.moneyLost}>${moneyLost}</Text>
               </View>
               <View style={styles.incomeRow}>
                 <Text style={styles.income}>Income</Text>
-                <Text style={styles.moneyEarned}>$0</Text>
+                <Text style={styles.moneyEarned}>${moneyEarned}</Text>
               </View>
               <TouchableOpacity style={styles.plusButton} onPress={AlertButton}>
                 <Text style={styles.plus}>+</Text>
@@ -276,6 +262,10 @@ const styles = StyleSheet.create({
   cost: {
     paddingRight: 100,
     color: "#f85f6a",
+  },
+  earnings: {
+    paddingRight: 100,
+    color: "#92d36e"
   },
   calendar: {
     borderWidth: 1,
