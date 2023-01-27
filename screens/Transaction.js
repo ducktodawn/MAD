@@ -6,13 +6,13 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
   SafeAreaView,
   FlatList,
   DrawerLayoutAndroid,
 } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
-import Navigation from "../components/Navigation";
+import Sidebar from "../components/Sidebar";
+import Hamburger from "../components/Hamburger";
 
 const images = [
   require("../assets/shopping2.png"),
@@ -51,7 +51,7 @@ export default function TransactionsScreen({ navigation }) {
     // for day option, all transactions which occurred in the same day will appear
     <View
       style={
-        (selected === "Month" && year === 0 && month < 1) ||
+        (selected === "Month" && year === 0 && month === 0) ||
         (selected === "Year" && year === 0) ||
         (selected === "Day" && day === 0 && month === 0 && year === 0)
           ? styles.entireItem
@@ -84,25 +84,25 @@ export default function TransactionsScreen({ navigation }) {
   const DATA = [
     {
       id: 1,
-      title: "12/1/2023",
+      title: "3/2/2023",
       amount: "$15.30",
       category: "Shopping",
       index: 0,
       type: "loss",
       year: todaysDate.getFullYear() - 2023,
-      month: todaysDate.getMonth() - 0,
-      day: todaysDate.getDate() - 12,
+      month: todaysDate.getMonth() - 1,
+      day: todaysDate.getDate() - 3,
     },
     {
       id: 2,
-      title: "8/1/2023",
+      title: "1/2/2023",
       amount: "$2.42",
       category: "tips",
       index: 1,
       type: "gain",
       year: todaysDate.getFullYear() - 2023,
-      month: todaysDate.getMonth() - 0,
-      day: todaysDate.getDate() - 8,
+      month: todaysDate.getMonth() -1,
+      day: todaysDate.getDate() - 1,
     },
     {
       id: 3,
@@ -163,35 +163,18 @@ export default function TransactionsScreen({ navigation }) {
   const drawer = useRef(null);
   return (
     <DrawerLayoutAndroid
-      ref={drawer}
-      drawerWidth={200}
-      renderNavigationView={() => (
-        <View>
-          <TouchableOpacity
-            style={styles.close}
-            activeOpacity={0.5}
-            onPress={() => drawer.current.closeDrawer()}
-          >
-            <Image
-              source={require("../assets/closeButton.png")}
-              style={styles.closeImage}
-            />
-          </TouchableOpacity>
-          <Navigation
-            navigationItems={navigationItems}
-            navigation={navigation}
-          ></Navigation>
-        </View>
-      )}
-    >
+    ref={drawer}
+    drawerWidth={200}
+    renderNavigationView={() => (
+      <Sidebar
+        navigation={navigation}
+        navigationItems={navigationItems}
+       closeDrawer={() => drawer.current.closeDrawer()}
+      />
+    )}
+  >
       <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.hamburger}
-          activeOpacity={0.5}
-          onPress={() => drawer.current.openDrawer()}
-        >
-          <Image source={require("../assets/hamburger.png")} />
-        </TouchableOpacity>
+      <Hamburger onPress={() => drawer.current.openDrawer()} />
 
         <Text style={styles.title}>Transactions</Text>
         <SelectList

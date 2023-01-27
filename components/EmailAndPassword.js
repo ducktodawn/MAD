@@ -2,10 +2,8 @@ import {
   View,
   Text,
   TextInput,
-  SafeAreaView,
   StyleSheet,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import { useState } from "react";
 import { auth } from "../config/firebase";
@@ -14,7 +12,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
-import { db } from '../config/firebase';
+import { db } from "../config/firebase";
 
 export default function EmailAndPassword({ page, navigation }) {
   const [email, onChangeEmail] = useState("");
@@ -35,8 +33,11 @@ export default function EmailAndPassword({ page, navigation }) {
         alert("Email does not have a registered account with our app");
       } else if (error.message === "Firebase: Error (auth/wrong-password).") {
         alert("Incorrect password");
-      } else if (error.message === "Firebase: Password should be at least 6 characters (auth/weak-password).") {
-        alert("Weak password, minimum 6 characters")
+      } else if (
+        error.message ===
+        "Firebase: Password should be at least 6 characters (auth/weak-password)."
+      ) {
+        alert("Weak password, minimum 6 characters");
       }
       console.log(error.message);
     }
@@ -46,13 +47,15 @@ export default function EmailAndPassword({ page, navigation }) {
       if (password !== confirmPassword) {
         alert("Passwords do not match");
       } else if (email !== "" && password !== "" && confirmPassword !== "") {
-        let userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+        let userCredentials = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
         if (userCredentials.user) {
-          await setDoc(doc(db, "users", userCredentials.user.uid),{});
+          await setDoc(doc(db, "users", userCredentials.user.uid), {});
         }
         navigation.navigate("SignIn");
-        
-        
       } else {
         alert("All fields are required");
       }
@@ -89,6 +92,9 @@ export default function EmailAndPassword({ page, navigation }) {
             onChangeText={(text) => onChangeConfirmPassword(text)}
             value={confirmPassword}
           />
+          <TouchableOpacity style={styles.button} onPress={onHandleSignUp}>
+            <Text style={styles.btnText}>Continue</Text>
+          </TouchableOpacity>
         </View>
       )}
       {page === "signin" && (
@@ -96,18 +102,12 @@ export default function EmailAndPassword({ page, navigation }) {
           <Text style={styles.btnText}>Sign in</Text>
         </TouchableOpacity>
       )}
-
-      {page === "signup" && (
-        <TouchableOpacity style={styles.button} onPress={onHandleSignUp}>
-          <Text style={styles.btnText}>Continue</Text>
-        </TouchableOpacity>
-      )}
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    width: "100%"
+    width: "100%",
   },
   title: {
     fontSize: 30,

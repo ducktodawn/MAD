@@ -5,41 +5,14 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-  FlatList,
   DrawerLayoutAndroid,
 } from "react-native";
-import { LineChart } from "react-native-chart-kit";
 import StatisticsArrows from "../components/StatisticsArrows";
-import BottomDrawer from "react-native-bottom-drawer-view";
-import Navigation from "../components/Navigation";
+import StatisticsDisplay from "../components/StatisticsDisplay";
+import Sidebar from "../components/Sidebar";
+import Hamburger from "../components/Hamburger";
 
 export default function StatisticsScreen({ navigation }) {
-  const data = {
-    labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-    datasets: [
-      {
-        data: [3, 1, 5, 4, 4, 3, 2, 3, 2, 4, 4, 5],
-        color: (opacity = 1) => `rgba(248,95,106, ${opacity})`,
-      },
-    ],
-  };
-  const DATA = [
-    { id: "1" },
-    { id: "2" },
-    { id: "3" },
-    { id: "4" },
-    { id: "5" },
-    { id: "6" },
-    { id: "7" },
-    { id: "8" },
-    { id: "9" },
-    { id: "10" },
-    { id: "11" },
-    { id: "12" },
-  ];
   const navigationItems = [
     { index: 0, title: "Home", selected: 1 },
     { index: 1, title: "Calendar", selected: 1 },
@@ -47,155 +20,32 @@ export default function StatisticsScreen({ navigation }) {
     { index: 3, title: "Transactions", selected: 1 },
   ];
   const drawer = useRef(null);
-  function Item({ id }) {
-    return (
-      <Text
-        style={
-          styles.others
-        }
-      >
-        {id}
-      </Text>
-    );
-  }
-  const renderItem = ({ item }) => <Item id={item.id} />;
-  const info = [
-    { id: "1", title: "Budget", cost: "$2000" },
-    { id: "2", title: "Costs", cost: "$1500" },
-    { id: "3", title: "Savings", cost: "$500" },
-  ];
-  function Item2({ id, title, cost }) {
-    if (parseInt(id) == info.length) {
-      return (
-        <View style={styles.info2}>
-          <Text style={styles.sectionTitles}>{title}</Text>
-          <Text style={styles.money}>{cost}</Text>
-        </View>
-      );
-    } else if (id == "1") {
-      return (
-        <>
-          <View style={styles.info}>
-            <Text style={styles.sectionTitles}>{title}</Text>
-            <Text style={styles.money}>{cost}</Text>
-          </View>
-          <Image source={require("../assets/line.png")} style={styles.line} />
-        </>
-      );
-    } else {
-      return (
-        <>
-          <View style={styles.info2}>
-            <Text style={styles.sectionTitles}>{title}</Text>
-            <Text style={styles.money}>{cost}</Text>
-          </View>
-          <Image source={require("../assets/line.png")} style={styles.line} />
-        </>
-      );
-    }
-  }
-  const renderItem2 = ({ item }) => (
-    <Item2 id={item.id} title={item.title} cost={item.cost} />
-  );
-  const screenWidth = Dimensions.get("window").width;
-  const chartConfig = {
-    backgroundGradientFrom: "white",
-    backgroundGradientTo: "white",
-    color: (opacity = 1) => `rgba(0,0,0, ${opacity})`,
-    barPercentage: 0.5,
-  };
   return (
     <DrawerLayoutAndroid
       ref={drawer}
       drawerWidth={200}
       renderNavigationView={() => (
-        <View>
-          <TouchableOpacity
-            style={styles.close}
-            activeOpacity={0.5}
-            onPress={() => drawer.current.closeDrawer()}
-          >
-            <Image
-              source={require("../assets/closeButton.png")}
-              style={styles.closeImage}
-            />
-          </TouchableOpacity>
-          <Navigation
-            navigationItems={navigationItems}
-            navigation={navigation}
-          ></Navigation>
-        </View>
+        <Sidebar
+          navigation={navigation}
+          navigationItems={navigationItems}
+          closeDrawer={() => drawer.current.closeDrawer()}
+        />
       )}
       style={styles.container}
     >
-        <View>
       <View>
-          <TouchableOpacity
-            style={styles.hamburger}
-            activeOpacity={0.5}
-            onPress={() => drawer.current.openDrawer()}
-          >
-            <Image source={require("../assets/hamburger.png")} />
-          </TouchableOpacity>
+        <View>
+          <Hamburger onPress={() => drawer.current.openDrawer()} />
           <Text style={styles.statistics}>Statistics</Text>
         </View>
         <View style={[styles.subHeader, styles.container]}>
           <Text style={styles.lineGraphText}>Line Graph</Text>
-          <StatisticsArrows navigation={navigation} navigatePage="StatisticsPieChart" />
-        </View>
-        <LineChart
-          data={data}
-          width={screenWidth}
-          height={220}
-          chartConfig={chartConfig}
-          withShadow={false}
-          withInnerLines={false}
-          withOuterLines={false}
-          withDots={true}
-          withHorizontalLabels={false}
-          withVerticalLabels={false}
-          hidePointsAtIndex={[0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11]}
-        />
-        <FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          style={styles.flatList}
-          horizontal={true}
-        />
-        <BottomDrawer containerHeight={253} shadow={true} roundedEdges={true}>
-          <View style={styles.drawerHeader}>
-            <TouchableOpacity>
-              <Image
-                source={require("../assets/leftArrow.png")}
-                style={styles.arrows}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-            <Text style={styles.drawerTitle}>March</Text>
-            <TouchableOpacity
-            >
-              <Image
-                source={require("../assets/rightArrow.png")}
-                style={styles.arrows}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
-          </View>
-          <FlatList
-            data={info}
-            renderItem={renderItem2}
-            keyExtractor={(item) => item.id}
+          <StatisticsArrows
+            navigation={navigation}
+            navigatePage="StatisticsPieChart"
           />
-          <View style={styles.goal}>
-            <Image
-              source={require("../assets/tick.png")}
-              style={styles.tick}
-              resizeMode="contain"
-            />
-            <Text style={styles.monthlyGoal}>Monthly goal reached</Text>
-          </View>
-        </BottomDrawer>
+        </View>
+        <StatisticsDisplay />
       </View>
     </DrawerLayoutAndroid>
   );
@@ -203,7 +53,7 @@ export default function StatisticsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   close: {
     marginTop: 50,
@@ -220,9 +70,10 @@ const styles = StyleSheet.create({
     marginLeft: 40,
   },
   statistics: {
-    fontSize: 25,
+    fontSize: 30,
     marginLeft: 40,
-    fontWeight: "bold",
+    fontWeight: "500",
+    color: "35424a",
   },
   others: {
     fontSize: 10,
@@ -238,7 +89,6 @@ const styles = StyleSheet.create({
     color: "#35424a",
     fontSize: 17,
     paddingLeft: 50,
-    
   },
   flatList: {
     marginLeft: 40,

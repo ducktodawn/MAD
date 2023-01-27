@@ -13,53 +13,51 @@ import {
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import BottomDrawer from "react-native-bottom-drawer-view";
-import Navigation from "../components/Navigation";
-import { collection, doc, getDocs } from "firebase/firestore";
-import { db } from '../config/firebase';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../config/firebase";
 import { getAuth } from "firebase/auth";
-
+import Sidebar from "../components/Sidebar";
+import Hamburger from "../components/Hamburger";
+import CalendarDrawerContents from "../components/CalendarDrawerContents";
 export default function CalendarScreen({ navigation }) {
-  const AlertButton = () =>
-    Alert.alert("Would you like to add for Expenses or Income?", "", [
-      {
-        text: "Expenses",
-        onPress: () => navigation.navigate("Expenses", { date: selectedDay })
-      },
-      {
-        text: "Income",
-        onPress: () => navigation.navigate("Income", { date: selectedDay })
-      },
-    ]);
+  
   const [selectedDay, setSelectedDay] = useState();
   const [markedDates, setMarkedDates] = useState();
   const [data, setData] = useState([]); // Initial empty array of users
   const [moneyEarned, setMoneyEarned] = useState(0);
   const [moneyLost, setMoneyLost] = useState(0);
-
   const displayList = async () => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    const DATA = [];
-    let moneyLost = 0;
-    let moneyEarned = 0;
-    const querySnapshot = await getDocs(collection(db, `/users/${user.uid}/expenses`));
-    const querySnapshot2 = await getDocs(collection(db, `/users/${user.uid}/income`));
-    querySnapshot.forEach((doc) => {
-      if (doc.data().date == selectedDay) {
-        DATA.push(doc.data());
-        moneyLost += parseFloat(doc.data().amount.slice(1));
-      }
-    });
-    querySnapshot2.forEach((doc) => {
-      if (doc.data().date == selectedDay) {
-        DATA.push(doc.data());
-        moneyEarned += parseFloat(doc.data().amount.slice(1));
-      }
-    });
-    setMoneyLost(moneyLost);
-    setMoneyEarned(moneyEarned);
-    setData(DATA);
-  }
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const DATA = [];
+      let moneyLost = 0;
+      let moneyEarned = 0;
+      const querySnapshot = await getDocs(
+        collection(db, `/users/${user.uid}/expenses`)
+      );
+      const querySnapshot2 = await getDocs(
+        collection(db, `/users/${user.uid}/income`)
+      );
+      querySnapshot.forEach((doc) => {
+        if (doc.data().date == selectedDay) {
+          DATA.push(doc.data());
+          moneyLost += parseFloat(doc.data().amount.slice(1));
+        }
+      });
+      querySnapshot2.forEach((doc) => {
+        if (doc.data().date == selectedDay) {
+          DATA.push(doc.data());
+          moneyEarned += parseFloat(doc.data().amount.slice(1));
+        }
+      });
+      setMoneyLost(moneyLost);
+      setMoneyEarned(moneyEarned);
+      setData(DATA);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const renderItem = ({ item }) => (
     <Item
@@ -83,7 +81,9 @@ export default function CalendarScreen({ navigation }) {
           <Image source={image} style={styles.icons} resizeMode="contain" />
           <Text style={style}>{title}</Text>
         </View>
-        <Text style={type === "Income" ? styles.earnings : styles.cost}>{amount}</Text>
+        <Text style={type === "Income" ? styles.earnings : styles.cost}>
+          {amount}
+        </Text>
       </View>
     );
   }
@@ -137,32 +137,16 @@ export default function CalendarScreen({ navigation }) {
       ref={drawer}
       drawerWidth={200}
       renderNavigationView={() => (
-        <View>
-          <TouchableOpacity
-            style={styles.close}
-            activeOpacity={0.5}
-            onPress={() => drawer.current.closeDrawer()}
-          >
-            <Image
-              source={require("../assets/closeButton.png")}
-              style={styles.closeImage}
-            />
-          </TouchableOpacity>
-          <Navigation
-            navigationItems={navigationItems}
-            navigation={navigation}
-          ></Navigation>
-        </View>
+        <Sidebar
+          navigation={navigation}
+          navigationItems={navigationItems}
+          closeDrawer={() => drawer.current.closeDrawer()}
+        />
       )}
+      style={styles.container}
     >
       <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.hamburger}
-          activeOpacity={0.5}
-          onPress={() => drawer.current.openDrawer()}
-        >
-          <Image source={require("../assets/hamburger.png")} />
-        </TouchableOpacity>
+        <Hamburger onPress={() => drawer.current.openDrawer()} />
         <Text style={styles.calendarTitle}>Calendar</Text>
         <>
           <Calendar
@@ -182,12 +166,11 @@ export default function CalendarScreen({ navigation }) {
           <FlatList
             data={data}
             renderItem={renderItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => Math.random()}
             style={styles.flatList}
           />
           <BottomDrawer
             containerHeight={190}
-            shadow={true} //shadow only appears on ios
             startUp={false}
             roundedEdges={true}
           >
@@ -203,17 +186,7 @@ export default function CalendarScreen({ navigation }) {
                   />
                 </TouchableOpacity>
               </View>
-              <View style={styles.expensesRow}>
-                <Text style={styles.expenses}>Expenses</Text>
-                <Text style={styles.moneyLost}>${moneyLost}</Text>
-              </View>
-              <View style={styles.incomeRow}>
-                <Text style={styles.income}>Income</Text>
-                <Text style={styles.moneyEarned}>${moneyEarned}</Text>
-              </View>
-              <TouchableOpacity style={styles.plusButton} onPress={AlertButton}>
-                <Text style={styles.plus}>+</Text>
-              </TouchableOpacity>
+              <CalendarDrawerContents moneyEarned={moneyEarned} moneyLost={moneyLost} navigation={navigation} selectedDay={selectedDay} />
             </View>
           </BottomDrawer>
         </>
@@ -224,20 +197,6 @@ export default function CalendarScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { backgroundColor: "white" },
-  close: {
-    marginTop: 50,
-    marginLeft: 15,
-  },
-  closeImage: {
-    height: 25,
-    width: 25,
-  },
-  hamburger: {
-    height: 30,
-    width: 30,
-    marginTop: 50,
-    marginLeft: 40,
-  },
   calendarTitle: {
     fontSize: 25,
     color: "#35424a",
@@ -265,7 +224,7 @@ const styles = StyleSheet.create({
   },
   earnings: {
     paddingRight: 100,
-    color: "#92d36e"
+    color: "#92d36e",
   },
   calendar: {
     borderWidth: 1,
