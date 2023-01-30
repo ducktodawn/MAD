@@ -26,7 +26,7 @@ import CalendarDrawerContents from "../components/CalendarDrawerContents";
 export default function CalendarScreen({ navigation }) {
   const [selectedDay, setSelectedDay] = useState();
   const [markedDates, setMarkedDates] = useState();
-  const [data, setData] = useState([]); // Initial empty array of users
+  const [data, setData] = useState([]); 
   const [moneyEarned, setMoneyEarned] = useState(0);
   const [moneyLost, setMoneyLost] = useState(0);
   const displayList = async () => {

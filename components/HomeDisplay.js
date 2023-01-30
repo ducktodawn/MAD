@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,18 +10,22 @@ import {
 } from "react-native";
 
 import { ProgressChart } from "react-native-chart-kit";
-
+import Hamburger from "../components/Hamburger";
 import HomeText from "./HomeText";
+import { getAuth } from "firebase/auth";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../config/firebase";
+import { SelectList } from "react-native-dropdown-select-list";
 
 const screenWidth = Dimensions.get("window").width;
 
-const Item = ({ title, amount, index }) => (
+const Item = ({ title, image, amount, type }) => (
   <View style={styles.entireItem}>
     <View style={styles.SeparatorLine} />
     <View style={styles.item}>
       <View style={styles.left}>
         <Text style={styles.color}>
-          <Image source={images[index]} style={styles.icons} />
+          <Image source={image} style={styles.icons} />
           {"  "}
           {title}
         </Text>
@@ -33,39 +38,55 @@ const Item = ({ title, amount, index }) => (
 );
 const renderItem = ({ item }) => (
   <View>
-    <Item title={item.title} amount={item.amount} index={item.index} />
+    <Item title={item.title} amount={item.amount} image={item.image} type={item.type} />
   </View>
 );
 
-const images = [
-  require("../assets/food.png"),
-  require("../assets/transport.png"),
-  require("../assets/others.png"),
-];
 export default function HomeDisplay() {
-  const data = {
-    data: [0.4],
-  };
-  const list = [
-    {
-      id: 1,
-      title: "Food",
-      amount: "$6",
-      index: 0,
-    },
-    {
-      id: 2,
-      title: "Transport",
-      amount: "$2",
-      index: 1,
-    },
-    {
-      id: 3,
-      title: "Others",
-      amount: "$3",
-      index: 2,
-    },
+  const [DATA, setData] = useState([]);
+  const [moneyLost, setMoneyLost] = useState(0);
+  const [selected, setSelected] = useState("All");
+  const selectionOptions = [
+    { key: 1, value: "All" },
+    { key: 2, value: "Expenses" },
+    { key: 3, value: "Income" },
   ];
+  const displayList = async () => {
+    try {
+      let currentDate = new Date().toJSON().slice(0, 10);
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const DATA = [];
+      let moneyLost = 0;
+      const querySnapshot = await getDocs(
+        collection(db, `/users/${user.uid}/expenses`)
+      );
+      const querySnapshot2 = await getDocs(
+        collection(db, `/users/${user.uid}/income`)
+      );
+      querySnapshot.forEach((doc) => {
+        if (doc.data().date == currentDate) {
+          DATA.push(doc.data());
+          moneyLost += parseFloat(doc.data().amount.slice(1));
+        }
+      });
+      querySnapshot2.forEach((doc) => {
+        if (doc.data().date == currentDate) {
+          DATA.push(doc.data());
+        }
+      });
+      setMoneyLost(moneyLost);
+      setData(DATA);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    displayList();
+  });
+  const data = {
+    data: [moneyLost / 100],
+  };
   return (
     <View>
       <HomeText />
@@ -83,16 +104,33 @@ export default function HomeDisplay() {
         style={styles.chart}
       />
       <View style={styles.money}>
-        <Text style={styles.value}>$11</Text>
+        <Text style={styles.value}>${moneyLost}</Text>
       </View>
       <View style={styles.box}>
-        <Text style={styles.percentage}>
+        <Text style={moneyLost > 100 ? styles.exceedBudget : styles.withinBudget}>
           You spent {data.data * 100}% of your recommended budget
         </Text>
       </View>
+      <SelectList
+        setSelected={(val) => setSelected(val)}
+        data={selectionOptions}
+        save="value"
+        search={false}
+        placeholder={"All"}
+        defaultOption={"All"}
+        boxStyles={styles.selectList}
+        inputStyles={{ color: "white" }}
+        dropdownStyles={{ height: 140, marginLeft: 30 }}
+        arrowicon={
+          <Image
+            source={require("../assets/arrow.png")}
+            style={styles.arrow}
+          />
+        }
+      />
       <SafeAreaView style={styles.spendingList}>
         <FlatList
-          data={list}
+          data={DATA}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
@@ -101,6 +139,10 @@ export default function HomeDisplay() {
   );
 }
 const styles = StyleSheet.create({
+  arrow: {
+    height: 18,
+    width: 18,
+  },
   SeparatorLine: {
     borderBottomColor: "rgba(222, 226, 230, 0.5)",
     marginHorizontal: 25,
@@ -132,13 +174,19 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "rgba(222, 226, 230, 0.25)",
   },
-  percentage: {
+  withinBudget: {
     color: "#92d36e",
     alignSelf: "center",
     fontSize: 24,
   },
+  exceedBudget: {
+    color: "#f85f6a",
+    alignSelf: "center",
+    fontSize: 24,
+  },
   spendingList: {
-    marginTop: 50,
+    marginTop: 25,
+    height: 180
   },
   icons: {
     height: 17,
@@ -165,5 +213,13 @@ const styles = StyleSheet.create({
   color: {
     color: "#989eb1",
     fontWeight: "600",
+  },
+  selectList: {
+    marginLeft: 40,
+    marginVertical: 10,
+    backgroundColor: "#f85f6a",
+  },
+  hide: {
+    display: "none",
   },
 });
