@@ -1,9 +1,10 @@
 // Names: Dawn Oh Le Qian (2222923) Jeanette Ong Jing Xuan (2222808)
 // Class: DIT/FT/1B/05
-import { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, View } from "react-native";
+
 import BackButton from "../components/BackButton";
 import ExpensesAndIncomeInput from "../components/ExpensesAndIncomeInput";
+
 export default function IncomeScreen({ route, navigation }) {
   const DATA = [
     {
@@ -54,5 +55,6 @@ export default function IncomeScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
+    flex: 1
   },
 });

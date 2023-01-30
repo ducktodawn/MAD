@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   View,
   Text,
@@ -5,7 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { useState } from "react";
+
+import SignInSignUpNavigation from "./SignInSignUpNavigation";
+
 import { auth } from "../config/firebase";
 import {
   signInWithEmailAndPassword,
@@ -27,19 +30,26 @@ export default function EmailAndPassword({ page, navigation }) {
         alert("Both fields are required");
       }
     } catch (error) {
+      // if user does not enter a valid email
       if (error.message === "Firebase: Error (auth/invalid-email).") {
         alert("Invalid email");
+        // if user has not signed up with the email user has input for sign in page
       } else if (error.message === "Firebase: Error (auth/user-not-found).") {
         alert("Email does not have a registered account with our app");
+        // if user has entered wrong password for email entered
       } else if (error.message === "Firebase: Error (auth/wrong-password).") {
         alert("Incorrect password");
-      } else if (
+        // for all other errors
+      } // weak password
+      else if (
         error.message ===
         "Firebase: Password should be at least 6 characters (auth/weak-password)."
       ) {
         alert("Weak password, minimum 6 characters");
+        // for all other errors
+      } else {
+        alert(error.message);
       }
-      console.log(error.message);
     }
   };
   const onHandleSignUp = async () => {
@@ -62,8 +72,22 @@ export default function EmailAndPassword({ page, navigation }) {
     } catch (error) {
       if (error.message === "Firebase: Error (auth/invalid-email).") {
         alert("Invalid email");
+
+
+
+
+
+        
+        // weak password
+      } else if (
+        error.message ===
+        "Firebase: Password should be at least 6 characters (auth/weak-password)."
+      ) {
+        alert("Weak password, minimum 6 characters");
+        // for all other errors
+      } else {
+        alert(error.message);
       }
-      console.log(error.message);
     }
   };
 
@@ -102,29 +126,13 @@ export default function EmailAndPassword({ page, navigation }) {
           <Text style={styles.btnText}>Sign in</Text>
         </TouchableOpacity>
       )}
+      <SignInSignUpNavigation page={page} navigation={navigation} />
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-  },
-  title: {
-    fontSize: 30,
-    marginLeft: 40,
-    fontWeight: "bold",
-  },
-  text: {
-    color: "#989eb1",
-    marginLeft: 40,
-    marginTop: 10,
-    fontWeight: "600",
-  },
-  image: {
-    margin: 50,
-    width: "30%",
-    height: "10%",
-    alignSelf: "center",
   },
   input: {
     borderColor: "#989eb1",
@@ -140,11 +148,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontWeight: "700",
   },
-  btnView: {
-    marginTop: 20,
-    height: 60,
-    alignItems: "center",
-  },
   button: {
     alignSelf: "center",
     backgroundColor: "#f85f6a",
@@ -155,14 +158,6 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: "white",
-    fontWeight: "900",
-  },
-  bottom: {
-    flexDirection: "column",
-    margin: 10,
-  },
-  bottomText: {
-    color: "#989eb1",
     fontWeight: "900",
   },
 });

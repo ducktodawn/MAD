@@ -3,11 +3,12 @@
 import {
   StyleSheet,
   Text,
-  View,
   Image,
   KeyboardAvoidingView,
 } from "react-native";
+
 import EmailAndPassword from "../components/EmailAndPassword";
+
 export default function SignUpScreen({ navigation }) {
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -18,19 +19,6 @@ export default function SignUpScreen({ navigation }) {
 
       <EmailAndPassword page="signup" navigation={navigation} />
 
-      <View style={styles.btnView}>
-        <View style={styles.bottom}>
-          <Text style={styles.bottomText}>
-            <Text>Have an Account? </Text>
-            <Text
-              style={styles.signup}
-              onPress={() => navigation.navigate("SignIn")}
-            >
-              Sign In
-            </Text>
-          </Text>
-        </View>
-      </View>
     </KeyboardAvoidingView>
   );
 }
@@ -58,22 +46,5 @@ const styles = StyleSheet.create({
     width: "30%",
     height: "10%",
     alignSelf: "center",
-  },
-  btnView: {
-    marginTop: 20,
-    width: "100%",
-    height: 60,
-    alignItems: "center",
-  },
-  bottom: {
-    flexDirection: "column",
-    margin: 10,
-  },
-  bottomText: {
-    color: "#989eb1",
-    fontWeight: "900",
-  },
-  signup: {
-    color: "#f85f6a",
   },
 });

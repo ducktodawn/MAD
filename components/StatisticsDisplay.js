@@ -1,5 +1,3 @@
-import BottomDrawer from "react-native-bottom-drawer-view";
-import { LineChart } from "react-native-chart-kit";
 import {
   StyleSheet,
   Text,
@@ -8,7 +6,12 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
+
+import BottomDrawer from "react-native-bottom-drawer-view";
+import { LineChart } from "react-native-chart-kit";
+
 import StatisticsDrawerHeader from "./StatisticsDrawerHeader";
+
 export default function StatisticsDisplay() {
   const data = {
     labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
@@ -126,20 +129,6 @@ export default function StatisticsDisplay() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
-  },
-  close: {
-    marginTop: 50,
-    marginLeft: 15,
-  },
-  closeImage: {
-    height: 25,
-    width: 25,
-  },
-  hamburger: {
-    height: 30,
-    width: 30,
-    marginTop: 50,
-    marginLeft: 40,
   },
   statistics: {
     fontSize: 25,

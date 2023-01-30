@@ -1,8 +1,11 @@
-import { View, FlatList, StyleSheet, TouchableOpacity, Image, Text } from "react-native";
 import { useState } from 'react';
+
+import { View, FlatList, StyleSheet, TouchableOpacity, Image, Text } from "react-native";
+
 import { collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { db } from '../config/firebase';
+
 export default function ExpensesAndIncome({ data, value, navigation, date }) {
   const [selected, setSelected] = useState();
   function Item({ id, title, image, selectedImage, onPress, style }) {
@@ -86,53 +89,6 @@ export default function ExpensesAndIncome({ data, value, navigation, date }) {
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  backArrow: {
-    width: 10,
-    height: 20,
-    marginTop: 23,
-    paddingRight: 30,
-  },
-  back: {
-    marginTop: 20,
-    fontSize: 15,
-    color: "#989eb1",
-    fontFamily: "Roboto",
-  },
-  expenses: {
-    fontSize: 25,
-    color: "#35424a",
-    fontFamily: "Roboto",
-    fontWeight: "bold",
-    paddingTop: 10,
-    paddingLeft: 45,
-  },
-  amountSpent: {
-    fontSize: 17,
-    color: "#f85f6a",
-    fontFamily: "Roboto",
-    paddingTop: 20,
-    paddingLeft: 45,
-  },
-  inputLine: {
-    width: 200,
-    borderBottomColor: "#ebebeb",
-    borderBottomWidth: 2,
-    marginLeft: 45,
-  },
-  typeOfExpense: {
-    fontSize: 17,
-    color: "#f85f6a",
-    fontFamily: "Roboto",
-    paddingTop: 35,
-    paddingLeft: 45,
-    paddingBottom: 10,
-  },
   item: {
     color: "#606060",
     paddingBottom: 20,

@@ -4,8 +4,9 @@ export default function CalendarDrawerContents({
   moneyEarned,
   moneyLost,
   navigation,
-  selectedDay
+  selectedDay,
 }) {
+  // gets user to choose if they would like to update their expenses or income
   const AlertButton = () =>
     Alert.alert("Would you like to add for Expenses or Income?", "", [
       {

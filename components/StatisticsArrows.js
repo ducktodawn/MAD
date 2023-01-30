@@ -1,10 +1,6 @@
-import {
-    StyleSheet,
-    View,
-    Image,
-    TouchableOpacity,
-  } from "react-native";
-export default function StatisticsArrows({navigatePage, navigation }) {
+import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
+
+export default function StatisticsArrows({ navigatePage, navigation }) {
   return (
     <View style={styles.roundedArrows}>
       <TouchableOpacity onPress={() => navigation.navigate(navigatePage)}>

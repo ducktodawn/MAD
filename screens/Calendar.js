@@ -1,6 +1,7 @@
 // Names: Dawn Oh Le Qian (2222923) Jeanette Ong Jing Xuan (2222808)
 // Class: DIT/FT/1B/05
 import { useState, useEffect, useRef } from "react";
+
 import {
   StyleSheet,
   Text,
@@ -9,18 +10,20 @@ import {
   TouchableOpacity,
   FlatList,
   DrawerLayoutAndroid,
-  Alert,
 } from "react-native";
+
 import { Calendar } from "react-native-calendars";
 import BottomDrawer from "react-native-bottom-drawer-view";
+
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { getAuth } from "firebase/auth";
+
 import Sidebar from "../components/Sidebar";
 import Hamburger from "../components/Hamburger";
 import CalendarDrawerContents from "../components/CalendarDrawerContents";
+
 export default function CalendarScreen({ navigation }) {
-  
   const [selectedDay, setSelectedDay] = useState();
   const [markedDates, setMarkedDates] = useState();
   const [data, setData] = useState([]); // Initial empty array of users
@@ -110,7 +113,6 @@ export default function CalendarScreen({ navigation }) {
     });
   };
   const formatDate = (dateString) => {
-    // console.log(dateString);
     const monthArr = [
       "January",
       "February",
@@ -131,6 +133,7 @@ export default function CalendarScreen({ navigation }) {
     const year = date.getFullYear();
     return `${day} ${month} ${year}`;
   };
+
   const drawer = useRef(null);
   return (
     <DrawerLayoutAndroid
@@ -186,7 +189,12 @@ export default function CalendarScreen({ navigation }) {
                   />
                 </TouchableOpacity>
               </View>
-              <CalendarDrawerContents moneyEarned={moneyEarned} moneyLost={moneyLost} navigation={navigation} selectedDay={selectedDay} />
+              <CalendarDrawerContents
+                moneyEarned={moneyEarned}
+                moneyLost={moneyLost}
+                navigation={navigation}
+                selectedDay={selectedDay}
+              />
             </View>
           </BottomDrawer>
         </>
@@ -246,46 +254,6 @@ const styles = StyleSheet.create({
     width: 30,
     marginTop: 13,
     marginRight: 10,
-  },
-  expensesRow: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    paddingTop: 20,
-  },
-  expenses: {
-    color: "#989eb1",
-    fontSize: 15,
-  },
-  moneyLost: {
-    color: "#f85f6a",
-    fontSize: 15,
-  },
-  incomeRow: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    paddingTop: 20,
-  },
-  income: {
-    color: "#989eb1",
-    fontSize: 15,
-  },
-  moneyEarned: {
-    color: "#92d36e",
-    fontSize: 15,
-  },
-  plusButton: {
-    backgroundColor: "#f85f6a",
-    borderRadius: 100,
-    position: "absolute",
-    bottom: -50,
-    right: 20,
-    zIndex: 1,
-  },
-  plus: {
-    fontSize: 30,
-    color: "white",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
   },
   header: {
     flexDirection: "row",

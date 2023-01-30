@@ -6,9 +6,12 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
+
 import { PieChart } from "react-native-chart-kit";
 import BottomDrawer from "react-native-bottom-drawer-view";
+
 import StatisticsDrawerHeader from "../components/StatisticsDrawerHeader";
+
 export default function StatisticsPieChartDisplay() {
   const data = [
     {

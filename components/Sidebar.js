@@ -4,7 +4,9 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+
 import Navigation from "./Navigation";
+
 export default function Sidebar({ navigation, navigationItems, closeDrawer }) {
   return (
     <View>

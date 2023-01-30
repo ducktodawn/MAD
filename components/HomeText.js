@@ -1,4 +1,5 @@
 import { Text, View, StyleSheet } from "react-native";
+
 export default function HomeText() {
   return (
     <View>
@@ -9,6 +10,7 @@ export default function HomeText() {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   title: {
     fontSize: 30,

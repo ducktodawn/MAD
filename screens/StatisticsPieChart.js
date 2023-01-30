@@ -1,16 +1,14 @@
 // Names: Dawn Oh Le Qian (2222923) Jeanette Ong Jing Xuan (2222808)
 // Class: DIT/FT/1B/05
 import { useRef } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  DrawerLayoutAndroid,
-} from "react-native";
+
+import { StyleSheet, Text, View, DrawerLayoutAndroid } from "react-native";
+
 import Sidebar from "../components/Sidebar";
 import Hamburger from "../components/Hamburger";
 import StatisticsArrows from "../components/StatisticsArrows";
 import StatisticsPieChartDisplay from "../components/StatisticsPieChartDisplay";
+
 /*Reasons for changes in pie chart
 1. Percentage in the legend --> no need to look at two places at once and users can see both the category and percentage at the same place
 2. Legend at the right side of the pie chart --> same level of vision and users can have a side by side comparison between the pie chart and legend
@@ -22,8 +20,8 @@ export default function StatisticsPieChart({ navigation }) {
     { index: 2, title: "Statistics", selected: 0 },
     { index: 3, title: "Transactions", selected: 1 },
   ];
-  const drawer = useRef(null);
 
+  const drawer = useRef(null);
 
   return (
     <DrawerLayoutAndroid
@@ -47,8 +45,7 @@ export default function StatisticsPieChart({ navigation }) {
           <Text style={styles.pieGraphText}>Pie Chart</Text>
           <StatisticsArrows navigation={navigation} navigatePage="Statistics" />
         </View>
-<StatisticsPieChartDisplay />
-        
+        <StatisticsPieChartDisplay />
       </View>
     </DrawerLayoutAndroid>
   );

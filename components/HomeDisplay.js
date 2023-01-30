@@ -7,9 +7,13 @@ import {
   Image,
   View,
 } from "react-native";
+
 import { ProgressChart } from "react-native-chart-kit";
+
 import HomeText from "./HomeText";
+
 const screenWidth = Dimensions.get("window").width;
+
 const Item = ({ title, amount, index }) => (
   <View style={styles.entireItem}>
     <View style={styles.SeparatorLine} />

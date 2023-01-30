@@ -1,12 +1,14 @@
 // Names: Dawn Oh Le Qian (2222923) Jeanette Ong Jing Xuan (2222808)
 // Class: DIT/FT/1B/05
 import { useRef } from "react";
+
 import {
   StyleSheet,
   Text,
   View,
   DrawerLayoutAndroid,
 } from "react-native";
+
 import StatisticsArrows from "../components/StatisticsArrows";
 import StatisticsDisplay from "../components/StatisticsDisplay";
 import Sidebar from "../components/Sidebar";
@@ -55,29 +57,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
   },
-  close: {
-    marginTop: 50,
-    marginLeft: 15,
-  },
-  closeImage: {
-    height: 25,
-    width: 25,
-  },
-  hamburger: {
-    height: 30,
-    width: 30,
-    marginTop: 50,
-    marginLeft: 40,
-  },
   statistics: {
     fontSize: 30,
     marginLeft: 40,
     fontWeight: "500",
     color: "35424a",
-  },
-  others: {
-    fontSize: 10,
-    paddingLeft: 20,
   },
   subHeader: {
     flexDirection: "row",
@@ -89,61 +73,5 @@ const styles = StyleSheet.create({
     color: "#35424a",
     fontSize: 17,
     paddingLeft: 50,
-  },
-  flatList: {
-    marginLeft: 40,
-  },
-  drawerHeader: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
-  arrows: {
-    width: 25,
-    height: 25,
-    marginTop: 25,
-  },
-  drawerTitle: {
-    fontSize: 25,
-    marginTop: 20,
-    color: "#35424a",
-  },
-  info: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginTop: 25,
-  },
-  sectionTitles: {
-    fontSize: 15,
-    color: "#acacac",
-    fontWeight: "bold",
-  },
-  money: {
-    fontSize: 15,
-    color: "#989eb1",
-  },
-  line: {
-    height: 3,
-    width: 320,
-    marginLeft: 50,
-    marginTop: 10,
-  },
-  info2: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    marginTop: 10,
-  },
-  tick: {
-    width: 25,
-    height: 25,
-    marginRight: 10,
-  },
-  monthlyGoal: {
-    fontSize: 20,
-    color: "#92d36e",
-  },
-  goal: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 15,
   },
 });

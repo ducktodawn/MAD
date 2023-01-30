@@ -1,6 +1,7 @@
 // Names: Dawn Oh Le Qian (2222923) Jeanette Ong Jing Xuan (2222808)
 // Class: DIT/FT/1B/05
 import { useState, useRef } from "react";
+
 import {
   StyleSheet,
   View,
@@ -10,7 +11,9 @@ import {
   FlatList,
   DrawerLayoutAndroid,
 } from "react-native";
+
 import { SelectList } from "react-native-dropdown-select-list";
+
 import Sidebar from "../components/Sidebar";
 import Hamburger from "../components/Hamburger";
 
@@ -175,7 +178,6 @@ export default function TransactionsScreen({ navigation }) {
   >
       <View style={styles.container}>
       <Hamburger onPress={() => drawer.current.openDrawer()} />
-
         <Text style={styles.title}>Transactions</Text>
         <SelectList
           setSelected={(val) => setSelected(val)}
