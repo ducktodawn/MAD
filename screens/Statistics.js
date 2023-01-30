@@ -2,14 +2,9 @@
 // Class: DIT/FT/1B/05
 import { useRef } from "react";
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  DrawerLayoutAndroid,
-} from "react-native";
+import { StyleSheet, Text, View, DrawerLayoutAndroid } from "react-native";
 
-import StatisticsArrows from "../components/StatisticsArrows";
+import StatisticsArrows from "../components/StatisticsBody";
 import StatisticsDisplay from "../components/StatisticsDisplay";
 import Sidebar from "../components/Sidebar";
 import Hamburger from "../components/Hamburger";
@@ -21,6 +16,7 @@ export default function StatisticsScreen({ navigation }) {
     { index: 2, title: "Statistics", selected: 0 },
     { index: 3, title: "Transactions", selected: 1 },
   ];
+
   const drawer = useRef(null);
   return (
     <DrawerLayoutAndroid
@@ -40,13 +36,6 @@ export default function StatisticsScreen({ navigation }) {
           <Hamburger onPress={() => drawer.current.openDrawer()} />
           <Text style={styles.statistics}>Statistics</Text>
         </View>
-        <View style={[styles.subHeader, styles.container]}>
-          <Text style={styles.lineGraphText}>Line Graph</Text>
-          <StatisticsArrows
-            navigation={navigation}
-            navigatePage="StatisticsPieChart"
-          />
-        </View>
         <StatisticsDisplay />
       </View>
     </DrawerLayoutAndroid>
@@ -62,16 +51,5 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     fontWeight: "500",
     color: "35424a",
-  },
-  subHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 15,
-    marginBottom: 20,
-  },
-  lineGraphText: {
-    color: "#35424a",
-    fontSize: 17,
-    paddingLeft: 50,
   },
 });
